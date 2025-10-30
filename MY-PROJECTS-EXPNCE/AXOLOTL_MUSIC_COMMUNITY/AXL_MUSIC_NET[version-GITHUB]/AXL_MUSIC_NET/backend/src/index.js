@@ -28,7 +28,9 @@ const PORT = process.env.PORT;
 const httpServer = createServer(app);
 const io = new SocketIOServer(httpServer, {
 	cors: {
-		origin: "http://localhost:3000",
+		origin: process.env.NODE_ENV === "production" 
+			? [process.env.FRONTEND_URL, "https://your-frontend-domain.vercel.app"]
+			: "http://localhost:3000",
 		credentials: true,
 	},
 });
@@ -39,7 +41,9 @@ app.set('io', io);
 
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: process.env.NODE_ENV === "production" 
+			? [process.env.FRONTEND_URL, "https://your-frontend-domain.vercel.app"]
+			: "http://localhost:3000",
 		credentials: true,
 	})
 );
